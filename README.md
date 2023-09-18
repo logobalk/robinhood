@@ -1,7 +1,7 @@
-#Run build image
-cd to _infra
-docker-compose build
-docker-compose up
+#Run build image <br />
+cd to _infra <br />
+docker-compose build <br />
+docker-compose up <br />
 
 #Testing Example
 1. call post /userprofile/save for create user profile <br />
