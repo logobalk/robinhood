@@ -1,0 +1,50 @@
+docker run --rm -v /path/to/your/aws/credentials:/root/.aws my-aws-cli-image \
+  aws dynamodb create-table \
+    --cli-input-json '{
+      "TableName": "appointment",
+      "AttributeDefinitions": [
+        {
+          "AttributeName": "hk",
+          "AttributeType": "S"
+        },
+        {
+          "AttributeName": "rk",
+          "AttributeType": "S"
+        },
+        {
+          "AttributeName": "gsi1Rk",
+          "AttributeType": "S"
+        }
+      ],
+      "KeySchema": [
+        {
+          "AttributeName": "hk",
+          "KeyType": "HASH"
+        },
+        {
+          "AttributeName": "rk",
+          "KeyType": "RANGE"
+        }
+      ],
+      "BillingMode": "PAY_PER_REQUEST",
+      "GlobalSecondaryIndexes": [
+        {
+          "IndexName": "gsi1",
+          "KeySchema": [
+            {
+              "AttributeName": "hk",
+              "KeyType": "HASH"
+            },
+            {
+              "AttributeName": "gsi1Rk",
+              "KeyType": "RANGE"
+            }
+          ],
+          "Projection": {
+            "ProjectionType": "ALL"
+          }
+        }
+      ]
+    }' \
+  --profile localstack \
+  --endpoint-url http://localhost:8000

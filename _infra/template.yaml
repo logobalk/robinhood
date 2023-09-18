@@ -1,0 +1,8 @@
+docker network create localstack_network
+aws dynamodb create-table 
+--table-name appointment 
+--attribute-definitions AttributeName=ID,AttributeType=N  
+--key-schema AttributeName=ID,KeyType=HASH 
+--provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5 
+--profile localstack 
+--endpoint-url http://localhost:8000

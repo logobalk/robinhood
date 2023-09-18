@@ -1,0 +1,11 @@
+# ignore MacOS
+.DS_Store
+
+# ignore all markdown files (.md)
+*.md
+
+# ignore gitignore
+.gitignore
+
+# ignore local testing
+docker-compose.yaml
