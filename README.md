@@ -36,3 +36,6 @@ docker-compose up
 }
 
 6. get master status from /master-data/status
+
+#for unit test
+run docker run -p 4566:4566 localstack/localstack

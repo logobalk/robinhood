@@ -7,7 +7,6 @@ import (
 	dynamoddb "robinhood/utils/dynamoDdb"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
-	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/expression"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
 )
@@ -73,28 +72,6 @@ func (db *UserProfileRepoDdb) GetUserById(id string) (*domain.UseProfile, error)
 	}
 	if result == nil {
 		return nil, nil
-	}
-
-	return result, nil
-}
-
-func (db *UserProfileRepoDdb) GetAllUser() ([]*domain.UseProfile, error) {
-	expr, err := expression.NewBuilder().
-		WithKeyCondition(expression.Key(hk).Equal((expression.Value(userHk)))).
-		Build()
-	if err != nil {
-		return nil, err
-	}
-
-	result := make([]*domain.UseProfile, 0, 20)
-	if err = dynamoddb.Query(context.Background(), &dynamoddb.QueryInput{
-		TableName:                 db.tableName,
-		KeyConditionExpression:    expr.KeyCondition(),
-		ExpressionAttributeNames:  expr.Names(),
-		ExpressionAttributeValues: expr.Values(),
-		All:                       true,
-	}, &result); err != nil {
-		return nil, err
 	}
 
 	return result, nil

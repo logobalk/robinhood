@@ -2,7 +2,6 @@ package repo
 
 import (
 	"context"
-	"fmt"
 	"robinhood/domain"
 	dynamoddb "robinhood/utils/dynamoDdb"
 	"testing"
@@ -62,8 +61,4 @@ func (t *UserProfileRepoTestSuite) TestSaveAndGet() {
 	res, err = t.repo.GetUserById("0")
 	t.NoError(err)
 	t.Nil(res)
-
-	res3, err := t.repo.GetAllUser()
-	fmt.Println("res3==>", res3)
-	t.NoError(err)
 }
