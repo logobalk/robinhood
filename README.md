@@ -6,7 +6,7 @@ docker-compose up <br />
 #Default on http://localhost:8081
 
 #Testing Example
-1. call post /userprofile/save for create user profile <br />
+1. call post "/userprofile/save" for create user profile <br />
 {
     "userName": "d",
     "name":"robin",
@@ -15,29 +15,54 @@ docker-compose up <br />
 }
 
 2. keep userReference from 1. <br />
-3. call post /appointment/save for save appointment card ถ้า update ให้ส่ง appId ไปด้้วย <br />
+3. call post "/appointment/save" for save appointment card โดย เอา userReference จาก 1. ที่ return มาใช้ <br />
+ ถ้า update appointment ให้ส่ง appId ของ appointment นั้น ไปด้วย <br />
+#example create <br />
 {
     "title": "นัดหมาย2",
     "description": "ทดสอบ 23",
     "createdBy": "den",
     "email": "d@d.com",
-    "userReference": "7d307afd-e8c9-486f-8098-a231bbe568d0",  // user userReference from 2.
+    "userReference": "{userReference}",  
     "status" : "todo"
+}<br />
+#example update <br />
+{
+    "appId": {appId},
+    "title": "นัดหมาย2",
+    "description": "ทดสอบ 456",
+    "updatedBy": "den",
+    "email": "d@d.com",
+    "userReference": "{userReference}",  
+    "status" : "in_progress"
 }
 
-4. check appointment from /appointment/list?lastKey=22cb93c2-a6ef-4834-b003-a0620c3968dd&limit=10 <br />
-    lastKey = key จากข้อมูลตัวล่าสุดที่จะเข้าไปโหลดข้อมูลเพิ่ม ไม่ใส่ จะ เอาตัวแรกสุด
-    limit = จำนวน record ที่จะนำมาแสดง ถ้าไม่ใส่ จะ default = 10
+4. call get appointment list from "/appointment/list?lastKey={appId}&limit=10" <br />
+    lastKey = appId key จากข้อมูลตัวล่าสุดที่จะเข้าไปโหลดข้อมูลเพิ่ม ไม่ใส่ จะ เอาตัวแรกสุด <br />
+    limit = จำนวน record ที่จะนำมาแสดง ถ้าไม่ใส่ จะ default = 10 <br />
 
-5. call post /appointment/comment/save for save comment ถ้า update ให้ส่ง id ไปด้้วย <br />
+5. call post "/appointment/comment/save" for save comment appId ดูตาม appointment card ที่ต้องการเพิ่ม comment <br />
+ถ้า update comment ให้ส่ง id ของ comment นั้น ไปด้วย <br />
+#example create <br />
 {
-    "appId": "985b7fa4-3b8a-40b4-b599-dc0750cf866c", // get from appointment/list
+    "appId": {appId},
     "message": "ทดสอบ comment",
     "createdBy": "robinhood",
-    "userReference" : "16d38871-9315-453a-9d76-c5a61981a966"
+    "userReference" : {userReference}
+}<br />
+#example update <br />
+{
+    "id" : {id},
+    "appId": {appId},
+    "message": "ทดสอบ comment",
+    "updatedBy": "robinhood",
+    "userReference" : {userReference}
 }
 
-6. get master status from /master-data/status
+6. call get appointment detail (ดู comments ทั้งหมด) by appointment card from "/appointment/detail?appId={appId}" <br />
+ appId ดูตาม appointment card จาก 4. ที่ต้องการ ดูเนื้อหาข้างใน 
+
+7. get master status from /master-data/status
 
 #for unit test
 run docker run -p 4566:4566 localstack/localstack
