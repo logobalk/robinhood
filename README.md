@@ -15,9 +15,10 @@ docker-compose up <br />
 }
 
 2. keep userReference from 1. <br />
+
 3. call post "/appointment/save" for save appointment card โดย เอา userReference จาก 1. ที่ return มาใช้ <br />
  ถ้า update appointment ให้ส่ง appId ของ appointment นั้น ไปด้วย <br />
-#example create <br />
+#<b>example create</b> <br />
 {
     "title": "นัดหมาย2",
     "description": "ทดสอบ 23",
@@ -26,7 +27,7 @@ docker-compose up <br />
     "userReference": "{userReference}",  
     "status" : "todo"
 }<br />
-#example update <br />
+#<b>example update</b> <br />
 {
     "appId": {appId},
     "title": "นัดหมาย2",
@@ -43,14 +44,14 @@ docker-compose up <br />
 
 5. call post "/appointment/comment/save" for save comment appId ดูตาม appointment card ที่ต้องการเพิ่ม comment <br />
 ถ้า update comment ให้ส่ง id ของ comment นั้น ไปด้วย <br />
-#example create <br />
+<b>#example create</b> <br />
 {
     "appId": {appId},
     "message": "ทดสอบ comment",
     "createdBy": "robinhood",
     "userReference" : {userReference}
 }<br />
-#example update <br />
+<b>#example update</b> <br />
 {
     "id" : {id},
     "appId": {appId},
