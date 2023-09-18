@@ -3,6 +3,9 @@ cd to _infra <br />
 docker-compose build <br />
 docker-compose up <br />
 
+start dynamodb-local first
+start my_service-1 second
+
 #Default on http://localhost:8081
 
 #Testing Example

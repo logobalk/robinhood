@@ -3,7 +3,6 @@ package api
 import (
 	"fmt"
 	"net/http"
-	"robinhood/repo"
 	"robinhood/usecase"
 
 	"github.com/gin-gonic/gin"
@@ -16,17 +15,14 @@ type SaveUserProfileInput struct {
 	Email     string `json:"email"`
 }
 
-func SaveUserProfile(c *gin.Context) {
+func (a *ApiInput) SaveUserProfile(c *gin.Context) {
 	input := new(SaveUserProfileInput)
 	if err := c.ShouldBindJSON(&input); err != nil {
 		c.IndentedJSON(http.StatusBadRequest, "body failed")
 		return
 	}
 
-	appointmentRepo := repo.NewAppointmentRepoDdb("appointment")
-	commentRepo := repo.NewCommentRepoDdb("appointment")
-	userProfileRepo := repo.NewUserProfileRepoDdb("user_profile")
-	newUsecase := usecase.New(appointmentRepo, commentRepo, userProfileRepo)
+	newUsecase := a.useCase
 
 	id, err := newUsecase.SaveUserProfile(&usecase.UserProfileInput{
 		UserName:  input.UserName,

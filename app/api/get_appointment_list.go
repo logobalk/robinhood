@@ -3,8 +3,6 @@ package api
 import (
 	"net/http"
 	"robinhood/app/api/models"
-	"robinhood/repo"
-	"robinhood/usecase"
 
 	"github.com/aws/smithy-go/ptr"
 	"github.com/gin-gonic/gin"
@@ -16,17 +14,13 @@ type AppointmentListInput struct {
 	Status  *string `form:"status"`
 }
 
-func GetAppointmentList(c *gin.Context) {
+func (a *ApiInput) GetAppointmentList(c *gin.Context) {
 	input := new(AppointmentListInput)
 	if err := c.ShouldBindQuery(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
-	appointmentRepo := repo.NewAppointmentRepoDdb("appointment")
-	commentRepo := repo.NewCommentRepoDdb("appointment")
-	userProfileRepo := repo.NewUserProfileRepoDdb("user_profile")
-	newUsecase := usecase.New(appointmentRepo, commentRepo, userProfileRepo)
+	newUsecase := a.useCase
 
 	var ensureLastKey *string
 	ensureLastKey = input.Lastkey

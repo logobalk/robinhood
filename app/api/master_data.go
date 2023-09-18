@@ -13,7 +13,7 @@ type Status struct {
 	Value domain.Status `json:"value"`
 }
 
-func MasterData(c *gin.Context) {
+func (a *ApiInput) MasterData(c *gin.Context) {
 
 	status := []Status{
 		{ID: 1, Label: "To Do", Value: domain.StatusTodo},

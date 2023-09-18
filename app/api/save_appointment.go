@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"net/http"
 	"robinhood/domain"
-	"robinhood/repo"
 	"robinhood/usecase"
 
 	"github.com/gin-gonic/gin"
@@ -21,7 +20,7 @@ type SaveAppointmentInput struct {
 	IsActive      bool          `json:"IsActive"`
 }
 
-func SaveAppointment(c *gin.Context) {
+func (a *ApiInput) SaveAppointment(c *gin.Context) {
 	input := new(SaveAppointmentInput)
 	if err := c.ShouldBindJSON(&input); err != nil {
 		c.IndentedJSON(http.StatusBadRequest, "body failed")
@@ -29,10 +28,7 @@ func SaveAppointment(c *gin.Context) {
 		return
 	}
 
-	appointmentRepo := repo.NewAppointmentRepoDdb("appointment")
-	commentRepo := repo.NewCommentRepoDdb("appointment")
-	userProfileRepo := repo.NewUserProfileRepoDdb("user_profile")
-	newUsecase := usecase.New(appointmentRepo, commentRepo, userProfileRepo)
+	newUsecase := a.useCase
 
 	err := newUsecase.SaveAppointment(&usecase.SaveAppointmentInput{
 		AppId:         input.AppId,

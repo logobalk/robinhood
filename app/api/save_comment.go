@@ -3,7 +3,6 @@ package api
 import (
 	"fmt"
 	"net/http"
-	"robinhood/repo"
 	"robinhood/usecase"
 
 	"github.com/gin-gonic/gin"
@@ -18,17 +17,14 @@ type SaveCommentInput struct {
 	UserReference string  `json:"userReference"`
 }
 
-func SaveComment(c *gin.Context) {
+func (a *ApiInput) SaveComment(c *gin.Context) {
 	input := new(SaveCommentInput)
 	if err := c.ShouldBindJSON(&input); err != nil {
 		c.IndentedJSON(http.StatusBadRequest, "body failed")
 		return
 	}
 
-	appointmentRepo := repo.NewAppointmentRepoDdb("appointment")
-	commentRepo := repo.NewCommentRepoDdb("appointment")
-	userProfileRepo := repo.NewUserProfileRepoDdb("user_profile")
-	newUsecase := usecase.New(appointmentRepo, commentRepo, userProfileRepo)
+	newUsecase := a.useCase
 
 	err := newUsecase.SaveAppointmentDetail(&usecase.CreateAppointmentDetailInput{
 		Id:            input.Id,

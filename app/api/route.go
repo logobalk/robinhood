@@ -1,16 +1,22 @@
 package api
 
-import "github.com/gin-gonic/gin"
+import (
+	"robinhood/usecase"
 
-func New() *gin.Engine {
+	"github.com/gin-gonic/gin"
+)
+
+func New(useCase usecase.UseCase) *gin.Engine {
 	router := gin.Default()
-	router.GET("/appointment/list", GetAppointmentList)
-	router.POST("/appointment/save", SaveAppointment)
-	router.GET("/appointment/detail", GetAppointmentDetail)
-	router.POST("/appointment/comment/save", SaveComment)
-	router.POST("/userprofile/save", SaveUserProfile)
-	router.GET("/userprofile/detail", GetUserProfile)
-	router.GET("/master-data/status", MasterData)
+	newApi := NewApi(useCase)
+
+	router.GET("/appointment/list", newApi.GetAppointmentList)
+	router.POST("/appointment/save", newApi.SaveAppointment)
+	router.GET("/appointment/detail", newApi.GetAppointmentDetail)
+	router.POST("/appointment/comment/save", newApi.SaveComment)
+	router.POST("/userprofile/save", newApi.SaveUserProfile)
+	router.GET("/userprofile/detail", newApi.GetUserProfile)
+	router.GET("/master-data/status", newApi.MasterData)
 
 	return router
 }

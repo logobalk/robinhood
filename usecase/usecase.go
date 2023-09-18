@@ -9,7 +9,7 @@ type UseCase interface {
 	SaveAppointment(input *SaveAppointmentInput) error
 	GetAppointmentDetail(appId string) (*GetAppointmentDetailOutput, error)
 	SaveAppointmentDetail(input *CreateAppointmentDetailInput) error
-	SaveUserProfile(input *UserProfileInput) error
+	SaveUserProfile(input *UserProfileInput) (string, error)
 	GetUserProfileById(id string) (*UserProfileOutput, error)
 }
 
