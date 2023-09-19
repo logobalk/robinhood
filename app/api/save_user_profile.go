@@ -15,6 +15,10 @@ type SaveUserProfileInput struct {
 	Email     string `json:"email"`
 }
 
+type SaveUserProfileOutput struct {
+	UserReference string `json:"userReference"`
+}
+
 func (a *ApiInput) SaveUserProfile(c *gin.Context) {
 	input := new(SaveUserProfileInput)
 	if err := c.ShouldBindJSON(&input); err != nil {
@@ -35,6 +39,9 @@ func (a *ApiInput) SaveUserProfile(c *gin.Context) {
 		return
 	}
 	fmt.Println("err==>", err)
+	output := &SaveUserProfileOutput{
+		UserReference: id,
+	}
 
-	c.IndentedJSON(http.StatusOK, id)
+	c.IndentedJSON(http.StatusOK, output)
 }
